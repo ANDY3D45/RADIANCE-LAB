@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RADIANCE LAB – Lista de Precios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Rajdhani:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #050608;
+    --night-blue: #0a0e1a;
+    --blue-metal: #1a2744;
+    --blue-glow: #1e3a6e;
+    --silver: #a8b4c4;
+    --silver-light: #c8d4e4;
+    --silver-bright: #e0e8f0;
+    --gold-accent: #8a9ab0;
+    --text-main: #d0dcea;
+    --text-muted: #6a7d96;
+    --price-color: #7eb8e8;
+    --border: rgba(168,180,196,0.18);
+    --glow: rgba(30,58,110,0.6);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--black);
+    color: var(--text-main);
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── PARTICLES ── */
+  #particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(26,39,68,0.85) 0%, transparent 70%),
+      linear-gradient(180deg, #050608 0%, #0a0e1a 50%, #050608 100%);
+    z-index: 0;
+  }
+
+  .hero-logo-ring {
+    position: relative;
+    z-index: 2;
+    width: 160px;
+    height: 160px;
+    margin-bottom: 2rem;
+  }
+
+  .hero-logo-ring svg {
+    width: 100%;
+    height: 100%;
+    animation: spinRing 18s linear infinite;
+  }
+
+  @keyframes spinRing {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  .logo-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    color: var(--silver-bright);
+    text-transform: uppercase;
+  }
+
+  .hero-title {
+    position: relative;
+    z-index: 2;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #e0e8f0 0%, #a8b4c4 40%, #ffffff 60%, #7090b0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    line-height: 1;
+    animation: fadeUp 1.2s ease forwards;
+  }
+
+  .hero-sub {
+    position: relative;
+    z-index: 2;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(0.7rem, 2vw, 1rem);
+    font-weight: 400;
+    letter-spacing: 0.5em;
+    color: var(--silver);
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    animation: fadeUp 1.5s ease forwards;
+    opacity: 0;
+    animation-delay: 0.3s;
+    animation-fill-mode: forwards;
+  }
+
+  .hero-tagline {
+    position: relative;
+    z-index: 2;
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.6rem, 1.5vw, 0.78rem);
+    font-weight: 300;
+    letter-spacing: 0.35em;
+    color: var(--silver-light);
+    text-transform: uppercase;
+    margin-top: 1.5rem;
+    text-align: center;
+    max-width: 600px;
+    padding: 0 1rem;
+    opacity: 0;
+    animation: fadeUp 1.8s ease forwards;
+    animation-delay: 0.6s;
+    animation-fill-mode: forwards;
+  }
+
+  .hero-line {
+    position: relative;
+    z-index: 2;
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--silver), transparent);
+    margin: 1.5rem auto 0;
+    animation: expandLine 2s ease forwards;
+    animation-delay: 0.9s;
+    opacity: 0;
+  }
+
+  .hero-badges {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 2s ease forwards;
+    animation-delay: 1.1s;
+    animation-fill-mode: forwards;
+  }
+
+  .badge {
+    border: 1px solid var(--border);
+    padding: 0.45rem 1.2rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--silver);
+    background: rgba(26,39,68,0.3);
+    backdrop-filter: blur(4px);
+    transition: all 0.4s;
+    cursor: default;
+  }
+
+  .badge:hover {
+    border-color: var(--silver-light);
+    color: var(--silver-bright);
+    background: rgba(26,39,68,0.6);
+    box-shadow: 0 0 20px rgba(126,184,232,0.15);
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0.5;
+    animation: bounce 2s infinite;
+  }
+
+  .scroll-indicator span {
+    font-size: 0.55rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--silver);
+  }
+
+  .scroll-arrow {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(180deg, var(--silver), transparent);
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ── KEYFRAMES ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes expandLine {
+    from { opacity: 0; width: 0; }
+    to   { opacity: 1; width: 120px; }
+  }
+
+  /* ── SECTION BASE ── */
+  .section {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 2rem;
+    overflow: hidden;
+  }
+
+  .section-inner {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ── PARALLAX SLIDES ── */
+  .parallax-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .slide-track {
+    display: flex;
+    width: 400%;
+    height: 100%;
+    animation: slideImages 28s linear infinite;
+  }
+
+  .slide-track img {
+    width: 25%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.12;
+    filter: grayscale(30%) brightness(0.6) saturate(1.2);
+  }
+
+  @keyframes slideImages {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .parallax-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      var(--black) 0%,
+      rgba(5,6,8,0.75) 30%,
+      rgba(5,6,8,0.75) 70%,
+      var(--black) 100%);
+  }
+
+  /* ── TECH INTRO ── */
+  .tech-section {
+    background: linear-gradient(180deg, var(--black) 0%, var(--night-blue) 50%, var(--black) 100%);
+  }
+
+  .section-eyebrow {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--price-color);
+    margin-bottom: 1rem;
+    opacity: 0.8;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: var(--silver-bright);
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+  }
+
+  .section-body {
+    font-size: 0.82rem;
+    line-height: 1.9;
+    color: var(--text-muted);
+    max-width: 700px;
+    font-weight: 300;
+  }
+
+  .tech-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .tech-card {
+    border: 1px solid var(--border);
+    padding: 2rem 1.5rem;
+    background: rgba(26,39,68,0.2);
+    backdrop-filter: blur(8px);
+    transition: all 0.5s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tech-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--price-color), transparent);
+    transform: scaleX(0);
+    transition: transform 0.5s;
+  }
+
+  .tech-card:hover::before { transform: scaleX(1); }
+  .tech-card:hover {
+    border-color: rgba(126,184,232,0.3);
+    background: rgba(26,39,68,0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  .tech-card-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .tech-card-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--silver-bright);
+    margin-bottom: 0.75rem;
+  }
+
+  .tech-card-body {
+    font-size: 0.76rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 4rem auto;
+    max-width: 400px;
+  }
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border));
+  }
+  .divider-line:last-child {
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+  .divider-diamond {
+    width: 6px;
+    height: 6px;
+    background: var(--silver);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  /* ── PRICE AREA ── */
+  .price-area {
+    margin-bottom: 5rem;
+  }
+
+  .area-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .area-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 300;
+    color: rgba(168,180,196,0.12);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .area-title-wrap {}
+
+  .area-tag {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--price-color);
+    margin-bottom: 0.3rem;
+  }
+
+  .area-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--silver-bright);
+  }
+
+  .area-desc {
+    font-size: 0.78rem;
+    line-height: 1.85;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    max-width: 720px;
+    font-weight: 300;
+  }
+
+  .price-table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  .price-table tr {
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+
+  .price-table tr:hover {
+    background: rgba(26,39,68,0.35);
+  }
+
+  .price-table td {
+    padding: 1.1rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .price-table td:first-child {
+    color: var(--text-main);
+    font-weight: 300;
+    letter-spacing: 0.03em;
+  }
+
+  .price-table td:last-child {
+    text-align: right;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--price-color);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .price-dot {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background: var(--price-color);
+    border-radius: 50%;
+    margin-right: 0.8rem;
+    vertical-align: middle;
+    opacity: 0.6;
+  }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box {
+    border: 1px solid rgba(126,184,232,0.25);
+    background: linear-gradient(135deg, rgba(26,39,68,0.4), rgba(10,14,26,0.6));
+    padding: 2rem 2.5rem;
+    margin: 2.5rem 0;
+    position: relative;
+  }
+
+  .highlight-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--price-color), transparent);
+  }
+
+  .highlight-box-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--price-color);
+    margin-bottom: 0.8rem;
+  }
+
+  .highlight-box p {
+    font-size: 0.78rem;
+    line-height: 1.85;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    position: relative;
+    padding: 8rem 2rem;
+    text-align: center;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--black) 0%, var(--night-blue) 60%, var(--black) 100%);
+  }
+
+  .contact-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(30,58,110,0.4) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .contact-title {
+    position: relative;
+    z-index: 1;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: var(--silver-bright);
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-sub {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    position: relative;
+    z-index: 1;
+    margin-bottom: 3rem;
+  }
+
+  .phone-display {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    background: linear-gradient(135deg, #e0e8f0 0%, #a8b4c4 40%, #7eb8e8 70%, #ffffff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+    transition: all 0.4s;
+    cursor: pointer;
+  }
+
+  .phone-display:hover {
+    letter-spacing: 0.2em;
+    filter: brightness(1.2);
+  }
+
+  .phone-label {
+    display: block;
+    position: relative;
+    z-index: 1;
+    font-size: 0.65rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 1rem;
+  }
+
+  .whatsapp-btn {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+    padding: 0.9rem 2.5rem;
+    border: 1px solid rgba(37,211,102,0.4);
+    color: #5dcc85;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: rgba(37,211,102,0.07);
+    transition: all 0.4s;
+  }
+
+  .whatsapp-btn:hover {
+    background: rgba(37,211,102,0.15);
+    border-color: rgba(37,211,102,0.6);
+    box-shadow: 0 0 30px rgba(37,211,102,0.15);
+    transform: translateY(-2px);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: var(--black);
+  }
+
+  /* ── REVEAL ON SCROLL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* ── FLOATING NAV ── */
+  .float-nav {
+    position: fixed;
+    top: 50%;
+    right: 1.5rem;
+    transform: translateY(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .nav-dot {
+    width: 6px;
+    height: 6px;
+    border: 1px solid var(--silver);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+    opacity: 0.4;
+  }
+
+  .nav-dot:hover, .nav-dot.active {
+    opacity: 1;
+    background: var(--silver);
+    transform: scale(1.4);
+  }
+
+  /* ── AREA SEPARATOR ── */
+  .area-sep {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 5rem 0;
+  }
+
+  @media (max-width: 600px) {
+    .hero-badges { gap: 0.8rem; }
+    .badge { font-size: 0.55rem; padding: 0.4rem 0.9rem; }
+    .float-nav { display: none; }
+    .tech-cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Particle canvas -->
+<canvas id="particles"></canvas>
+
+<!-- Floating nav dots -->
+<nav class="float-nav" id="floatNav">
+  <div class="nav-dot active" data-target="hero" title="Inicio"></div>
+  <div class="nav-dot" data-target="tech" title="Tecnología"></div>
+  <div class="nav-dot" data-target="fresado" title="Fresado"></div>
+  <div class="nav-dot" data-target="impresion" title="Impresión 3D"></div>
+  <div class="nav-dot" data-target="termoformado" title="Termoformado"></div>
+  <div class="nav-dot" data-target="otras" title="Otras Áreas"></div>
+  <div class="nav-dot" data-target="contacto" title="Contacto"></div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+
+  <div class="hero-logo-ring">
+    <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="80" cy="80" r="74" stroke="url(#ringGrad)" stroke-width="1" stroke-dasharray="4 6"/>
+      <circle cx="80" cy="80" r="64" stroke="rgba(168,180,196,0.2)" stroke-width="0.5"/>
+      <defs>
+        <linearGradient id="ringGrad" x1="0" y1="0" x2="160" y2="160" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#e0e8f0"/>
+          <stop offset="50%" stop-color="#4070a0"/>
+          <stop offset="100%" stop-color="#e0e8f0"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <div class="logo-inner">RL</div>
+  </div>
+
+  <h1 class="hero-title">RADIANCE LAB</h1>
+  <p class="hero-sub">Laboratorio Dental Especializado</p>
+  <p class="hero-tagline">Calidad e implementación de tecnología en 3D a precios justos</p>
+  <div class="hero-line"></div>
+
+  <div class="hero-badges">
+    <div class="badge">CAD / CAM</div>
+    <div class="badge">Diseño &amp; Impresión 3D</div>
+    <div class="badge">Escaneo Intraoral Digital</div>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>Explorar</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ── TECH INTRO ── -->
+<section class="section tech-section" id="tech">
+  <!-- Background slides with printer images -->
+  <div class="parallax-bg">
+    <div class="slide-track" id="slideTech">
+      <img src="https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=1600&q=80" alt="3D Printer" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1600&q=80" alt="Technology" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1628863353691-0071c8c1874c?w=1600&q=80" alt="3D Print Detail" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=1600&q=80" alt="Lab Technology" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=1600&q=80" alt="3D Printer" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1600&q=80" alt="Technology" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1628863353691-0071c8c1874c?w=1600&q=80" alt="3D Print Detail" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=1600&q=80" alt="Lab Technology" loading="lazy">
+    </div>
+    <div class="parallax-overlay"></div>
+  </div>
+
+  <div class="section-inner" style="position:relative;z-index:2;">
+    <p class="section-eyebrow reveal">Nuestra Tecnología</p>
+    <h2 class="section-title reveal">Innovación en Cada<br>Restauración</h2>
+    <p class="section-body reveal">
+      En RADIANCE LAB trabajamos con las tecnologías más avanzadas disponibles en el sector odontológico. 
+      Contamos con impresoras 3D de alta resolución como la <strong style="color:var(--silver-light)">Photon Mono 4</strong>, 
+      la <strong style="color:var(--silver-light)">Halot Mage S</strong> y la 
+      <strong style="color:var(--silver-light)">Elegoo Saturn 4 Ultra 16K</strong>, capaces de producir 
+      restauraciones con precisión de micras. Nuestros escáneres intraorales digitales eliminan la necesidad 
+      de impresiones físicas, garantizando comodidad al paciente y exactitud en cada caso.
+    </p>
+
+    <div class="tech-cards">
+      <div class="tech-card reveal">
+        <span class="tech-card-icon">⚙️</span>
+        <div class="tech-card-title">CAD / CAM</div>
+        <p class="tech-card-body">
+          Computer-Aided Design & Manufacturing. Diseñamos cada restauración en software de precisión y la mecanizamos 
+          directamente desde bloques de material de alta calidad. El resultado es una pieza con ajuste perfecto, 
+          anatomía natural y sin errores de laboratorio convencional.
+        </p>
+      </div>
+      <div class="tech-card reveal">
+        <span class="tech-card-icon">🖨️</span>
+        <div class="tech-card-title">Impresión 3D</div>
+        <p class="tech-card-body">
+          Fabricación aditiva capa por capa con resoluciones de hasta 16K. Utilizamos resinas biocompatibles con 
+          cargas cerámicas que replican las propiedades ópticas del diente natural. Ideal para temporales de larga 
+          duración, modelos de estudio y restauraciones definitivas estéticas.
+        </p>
+      </div>
+      <div class="tech-card reveal">
+        <span class="tech-card-icon">🦷</span>
+        <div class="tech-card-title">Escaneo Intraoral</div>
+        <p class="tech-card-body">
+          Captamos la anatomía oral del paciente con escáneres de luz estructurada en 3D. El archivo digital 
+          reemplaza la impresión convencional con silicona: mayor precisión, cero deformación del material y 
+          flujo completamente digital desde el consultorio hasta el laboratorio.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICES SECTION ── -->
+<section class="section" id="precios" style="background:var(--black);">
+  <div class="section-inner">
+
+    <!-- ─── ÁREA 1: FRESADO ─── -->
+    <div class="price-area" id="fresado">
+      <!-- BG slides for zirconio -->
+      <div style="position:relative; overflow:hidden; border-radius:0; margin-bottom:2.5rem;">
+        <div style="position:relative; height:280px; overflow:hidden;">
+          <div class="slide-track" style="animation-duration:22s;">
+            <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=1600&q=80" alt="Zirconia" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=1600&q=80" alt="Dental" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1595872977984-14b6d7d3d3d5?w=1600&q=80" alt="Crown" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=1600&q=80" alt="Zirconia" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=1600&q=80" alt="Dental" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1595872977984-14b6d7d3d3d5?w=1600&q=80" alt="Crown" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+          </div>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,var(--black) 0%,rgba(5,6,8,0.6) 40%,rgba(5,6,8,0.6) 60%,var(--black) 100%);"></div>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:2.5rem;">
+            <div class="area-header" style="margin-bottom:0.5rem;">
+              <div class="area-number">01</div>
+              <div class="area-title-wrap">
+                <div class="area-tag">Área de Fresado CAD/CAM</div>
+                <h3 class="area-title" style="font-size:clamp(1.4rem,3vw,2rem);">Zirconio Multicapa</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlight-box reveal">
+        <div class="highlight-box-title">¿Qué es el Zirconio Multicapa?</div>
+        <p>
+          El <strong style="color:var(--silver-light)">zirconio multicapa</strong> (multilayer zirconia) es un material cerámico de óxido de zirconio estabilizado con itria (Y-TZP), 
+          diseñado con gradientes de color y translucidez que imitan la estructura del diente natural: blanco opaco en la raíz 
+          y translúcido en el borde incisal. Sus ventajas incluyen: resistencia a la fractura superior a 1200 MPa, 
+          biocompatibilidad total con tejidos orales, ausencia de metal y, por tanto, eliminación de halos grises en encía. 
+          El fresado digital CNC garantiza un ajuste marginal de menos de 50 micras, logrando restauraciones con 
+          función, estética y durabilidad a largo plazo.
+        </p>
+      </div>
+
+      <table class="price-table reveal">
+        <tr>
+          <td><span class="price-dot"></span>Corona en zirconio multicapa</td>
+          <td>$ 250.000</td>
+        </tr>
+        <tr>
+          <td><span class="price-dot"></span>Carilla en zirconio</td>
+          <td>$ 260.000</td>
+        </tr>
+        <tr>
+          <td><span class="price-dot"></span>Carilla en disilicato</td>
+          <td>$ 260.000</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="area-sep"></div>
+
+    <!-- ─── ÁREA 2: IMPRESIÓN 3D ─── -->
+    <div class="price-area" id="impresion">
+      <div style="position:relative; overflow:hidden; margin-bottom:2.5rem;">
+        <div style="position:relative; height:280px; overflow:hidden;">
+          <div class="slide-track" style="animation-duration:20s; animation-direction:reverse;">
+            <img src="https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=1600&q=80" alt="3D Print" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1600&q=80" alt="Resin" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=1600&q=80" alt="Technology" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=1600&q=80" alt="3D Print" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1600&q=80" alt="Resin" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=1600&q=80" alt="Technology" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+          </div>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,var(--black) 0%,rgba(5,6,8,0.6) 40%,rgba(5,6,8,0.6) 60%,var(--black) 100%);"></div>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:2.5rem;">
+            <div class="area-header" style="margin-bottom:0.5rem;">
+              <div class="area-number">02</div>
+              <div class="area-title-wrap">
+                <div class="area-tag">Área de Impresión 3D</div>
+                <h3 class="area-title" style="font-size:clamp(1.4rem,3vw,2rem);">Fabricación Aditiva Dental</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlight-box reveal">
+        <div class="highlight-box-title">Impresión 3D Dental & Resinas con Carga Cerámica</div>
+        <p>
+          La <strong style="color:var(--silver-light)">impresión 3D en odontología</strong> permite fabricar restauraciones, modelos y aparatos de manera 
+          completamente digital, con tolerancias imposibles de lograr manualmente. Utilizamos resinas de 
+          <strong style="color:var(--silver-light)">cuarta generación con carga cerámica</strong> (ceramic-filled resin): partículas cerámicas suspendidas en 
+          la matriz polimérica que incrementan la resistencia al desgaste en un 40%, reducen la absorción de 
+          agua, mejoran la dureza superficial (≥80 Shore D) y logran una translucidez similar al diente natural. 
+          Son biocompatibles, clase IIa, aptas para contacto oral prolongado. Las impresoras Saturn 4 Ultra 16K 
+          y Halot Mage S producen capas de 50 micras con resolución XY de 19 µm, superando en detalle a técnicas 
+          convencionales de fresado para geometrías complejas.
+        </p>
+      </div>
+
+      <table class="price-table reveal">
+        <tr>
+          <td><span class="price-dot"></span>Corona en resina impresa en 3D</td>
+          <td>$ 180.000</td>
+        </tr>
+        <tr>
+          <td><span class="price-dot"></span>Incrustación en resina impresa en 3D</td>
+          <td>$ 120.000</td>
+        </tr>
+        <tr>
+          <td><span class="price-dot"></span>Carilla en resina impresa en 3D</td>
+          <td>$ 150.000</td>
+        </tr>
+        <tr>
+          <td><span class="price-dot"></span>Diente temporal en resina impreso en 3D</td>
+          <td>$ 45.000</td>
+        </tr>
+        <tr>
+          <td><span class="price-dot"></span>Acker de una sola unidad impreso en 3D</td>
+          <td>$ 130.000</td>
+        </tr>
+        <tr>
+          <td><span class="price-dot"></span>Modelos impresos en 3D</td>
+          <td>$ 30.000</td>
+        </tr>
+        <tr>
+          <td><span class="price-dot"></span>Placa confort de 3mm impresa en 3D</td>
+          <td>$ 110.000</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="area-sep"></div>
+
+    <!-- ─── ÁREA 3: TERMOFORMADO ─── -->
+    <div class="price-area" id="termoformado">
+      <div style="position:relative; overflow:hidden; margin-bottom:2.5rem;">
+        <div style="position:relative; height:280px; overflow:hidden;">
+          <div class="slide-track" style="animation-duration:25s;">
+            <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=1600&q=80" alt="Clear aligner" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&q=80" alt="Lab" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=1600&q=80" alt="Dental" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=1600&q=80" alt="Clear aligner" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&q=80" alt="Lab" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=1600&q=80" alt="Dental" style="width:25%;height:100%;object-fit:cover;opacity:0.15;filter:grayscale(20%) brightness(0.7);" loading="lazy">
+          </div>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,var(--black) 0%,rgba(5,6,8,0.6) 40%,rgba(5,6,8,0.6) 60%,var(--black) 100%);"></div>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:2.5rem;">
+            <div class="area-header" style="margin-bottom:0.5rem;">
+              <div class="area-number">03</div>
+              <div class="area-title-wrap">
+                <div class="area-tag">Área de Termoformado Digital</div>
+                <h3 class="area-title" style="font-size:clamp(1.4rem,3vw,2rem);">Placas EXTRAconfort</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlight-box reveal">
+        <div class="highlight-box-title">Termoformado Digital de Última Generación</div>
+        <p>
+          Las <strong style="color:var(--silver-light)">placas EXTRAconfort</strong> se fabrican sobre modelos impresos en 3D desde el escaneo digital del paciente, 
+          usando termoformadoras digitales de control preciso de temperatura y presión. Esto garantiza un 
+          adaptación perfecta al arco, bordes perfectamente pulidos y espesor uniforme en toda la superficie. 
+          Disponibles en <strong style="color:var(--silver-light)">láminas de colores y transparente de 3mm</strong>, con propiedades 
+          de alta dureza, resistencia al desgaste nocturno y comodidad superior a las placas convencionales. 
+          Indicadas para bruxismo, protección oclusal y férrulas de relajación.
+        </p>
+      </div>
+
+      <table class="price-table reveal">
+        <tr>
+          <td><span class="price-dot"></span>Placa EXTRAconfort 3mm (colores y transparente)</td>
+          <td>$ 160.000</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="area-sep"></div>
+
+    <!-- ─── OTRAS ÁREAS ─── -->
+    <div class="price-area" id="otras">
+      <div class="area-header reveal">
+        <div class="area-number">04</div>
+        <div class="area-title-wrap">
+          <div class="area-tag">Servicios Adicionales</div>
+          <h3 class="area-title">Otras Áreas</h3>
+        </div>
+      </div>
+
+      <table class="price-table reveal">
+        <tr>
+          <td><span class="price-dot"></span>Diente temporal en acrílico</td>
+          <td>$ 35.000</td>
+        </tr>
+        <tr>
+          <td><span class="price-dot"></span>Pilares personalizados</td>
+          <td>$ 190.000</td>
+        </tr>
+        <tr>
+          <td><span class="price-dot"></span>Corona en metal cerámica</td>
+          <td>$ 145.000</td>
+        </tr>
+        <tr>
+          <td>
+            <span class="price-dot"></span>Escaneo intraoral a domicilio
+            <span style="display:inline-block;margin-left:0.5rem;font-size:0.65rem;letter-spacing:0.15em;color:var(--price-color);border:1px solid rgba(126,184,232,0.3);padding:0.1rem 0.4rem;">SOLO SUBA</span>
+          </td>
+          <td>$ 130.000</td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section class="contact-section" id="contacto">
+  <div class="contact-glow"></div>
+
+  <div class="divider" style="margin:0 auto 4rem;">
+    <div class="divider-line"></div>
+    <div class="divider-diamond"></div>
+    <div class="divider-line"></div>
+  </div>
+
+  <p class="contact-sub">Contáctenos</p>
+  <h2 class="contact-title reveal">¿Listo para su próximo caso?</h2>
+
+  <a href="tel:3222361949" class="phone-display reveal">322 236 1949</a>
+  <span class="phone-label reveal">Línea directa · WhatsApp</span>
+
+  <div style="margin-top:0.5rem;">
+    <a href="https://wa.me/573222361949?text=Hola%20RADIANCE%20LAB%2C%20quisiera%20información%20sobre%20sus%20servicios."
+       class="whatsapp-btn reveal" target="_blank">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      Escribir por WhatsApp
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 RADIANCE LAB · Laboratorio Dental Especializado · CAD/CAM · Impresión 3D · Escaneo Digital</p>
+</footer>
+
+<script>
+// ── PARTICLE SYSTEM ──
+(function(){
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize(){
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor(){
+      this.reset();
+    }
+    reset(){
+      this.x = Math.random() * W;
+      this.y = Math.random() * H;
+      this.r = Math.random() * 1.2 + 0.2;
+      this.vx = (Math.random() - 0.5) * 0.2;
+      this.vy = (Math.random() - 0.5) * 0.2;
+      this.alpha = Math.random() * 0.4 + 0.05;
+    }
+    update(){
+      this.x += this.vx;
+      this.y += this.vy;
+      if(this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
+    }
+    draw(){
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(168,180,196,${this.alpha})`;
+      ctx.fill();
+    }
+  }
+
+  for(let i = 0; i < 120; i++) particles.push(new Particle());
+
+  function animate(){
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => { p.update(); p.draw(); });
+    // draw connections
+    for(let i = 0; i < particles.length; i++){
+      for(let j = i+1; j < particles.length; j++){
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if(d < 100){
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(168,180,196,${0.06 * (1 - d/100)})`;
+          ctx.lineWidth = 0.5;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+// ── SCROLL REVEAL ──
+(function(){
+  const els = document.querySelectorAll('.reveal, .reveal-left');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(el => io.observe(el));
+})();
+
+// ── FLOATING NAV ──
+(function(){
+  const sections = ['hero','tech','fresado','impresion','termoformado','otras','contacto'];
+  const dots = document.querySelectorAll('.nav-dot');
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      const target = document.getElementById(sections[i]);
+      if(target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  function updateActive(){
+    const scrollY = window.scrollY + window.innerHeight * 0.4;
+    let active = 0;
+    sections.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if(el && el.offsetTop <= scrollY) active = i;
+    });
+    dots.forEach((d, i) => d.classList.toggle('active', i === active));
+  }
+
+  window.addEventListener('scroll', updateActive, { passive: true });
+  updateActive();
+})();
+</script>
+</body>
+</html>
